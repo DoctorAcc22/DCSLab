@@ -250,4 +250,51 @@ class SupplierController extends BaseController
             ['name' => 'components.dropdown.values.paymentTermTypeDDL.cnd', 'code' => PaymentTermType::CASH_ON_NEXT_DELIVERY->name],
         ];
     }
+
+    public function generateUniqueCode()
+    {
+        $result = null;
+        $errorMsg = '';
+
+        try {
+            $result = $this->supplierService->generateUniqueCode();
+        } catch (Exception $e) {
+            $errorMsg = app()->environment('production') ? '' : $e->getMessage();
+        }
+
+        if (is_null($result)) {
+            return response()->error($errorMsg);
+        } else {
+            return $result;
+        }
+    }
+
+    public function isUniqueCode(string $code, Supplier $supplier, bool $exceptThis)
+    {
+        $result = null;
+        $errorMsg = '';
+
+        try {
+            $exceptId = null;
+            if ($exceptThis) {
+                $exceptId = $supplier->id;
+            }
+
+            $result = $this->supplierService->isUniqueCode(
+                code: $code,
+                companyId: $supplier->company_id,
+                exceptId: $exceptId,
+            );
+        } catch (Exception $e) {
+            $errorMsg = app()->environment('production') ? '' : $e->getMessage();
+        }
+
+        if (!$result) {
+            return response()->error([
+                'code' => [trans('rules.unique_code')],
+            ], 422);
+        } else {
+            return $result;
+        }
+    }
 }

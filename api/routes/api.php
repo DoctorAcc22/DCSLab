@@ -74,14 +74,23 @@ Route::group(['prefix' => 'get', 'middleware' => ['auth', 'auth:sanctum', 'throt
             Route::group(['prefix' => 'product_group', 'as' => '.product_group'], function () {
                 Route::get('read', [ProductGroupController::class, 'list'])->name('.list');
                 Route::get('read/{productgroup:uuid}', [ProductGroupController::class, 'read'])->name('.read');
+
+                Route::get('read/generate/unique/code', [ProductGroupController::class, 'generateUniqueCode'])->name('.read.generate.unique.code');
+                Route::get('read/is/unique/code/{code}/{productgroup:uuid}/{except}', [ProductGroupController::class, 'isUniqueCode'])->name('.read.is.unique.code');
             });
             Route::group(['prefix' => 'brand', 'as' => '.brand'], function () {
                 Route::get('read', [BrandController::class, 'list'])->name('.list');
                 Route::get('read/{brand:uuid}', [BrandController::class, 'read'])->name('.read');
+
+                Route::get('read/generate/unique/code', [BrandController::class, 'generateUniqueCode'])->name('.read.generate.unique.code');
+                Route::get('read/is/unique/code/{code}/{brand:uuid}/{except}', [BrandController::class, 'isUniqueCode'])->name('.read.is.unique.code');
             });
             Route::group(['prefix' => 'unit', 'as' => '.unit'], function () {
                 Route::get('read', [UnitController::class, 'list'])->name('.list');
                 Route::get('read/{unit:uuid}', [UnitController::class, 'read'])->name('.read');
+
+                Route::get('read/generate/unique/code', [UnitController::class, 'generateUniqueCode'])->name('.read.generate.unique.code');
+                Route::get('read/is/unique/code/{code}/{unit:uuid}/{except}', [UnitController::class, 'isUniqueCode'])->name('.read.is.unique.code');
             });
             Route::group(['prefix' => 'product', 'as' => '.product'], function () {
                 Route::get('read', [ProductController::class, 'listProducts'])->name('.list');
