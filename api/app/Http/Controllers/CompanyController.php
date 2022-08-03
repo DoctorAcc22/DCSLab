@@ -22,6 +22,51 @@ class CompanyController extends BaseController
         $this->companyService = $companyService;
     }
 
+    public function store(CompanyRequest $companyRequest)
+    {
+        $request = $companyRequest->validated();
+
+        $user = Auth::user();
+
+        $code = $request['code'];
+        if ($code == config('dcslab.KEYWORDS.AUTO')) {
+            do {
+                $code = $this->companyService->generateUniqueCode();
+            } while (!$this->companyService->isUniqueCode($code, $user->id));
+        } else {
+            if (!$this->companyService->isUniqueCode($code, $user->id)) {
+                return response()->error([
+                    'code' => [trans('rules.unique_code')],
+                ], 422);
+            }
+        }
+
+        $companyArr = [
+            'user_id' => $user->id,
+            'code' => $code,
+            'name' => $request['name'],
+            'address' => $request['address'],
+            'default' => $request['default'],
+            'status' => $request['status'],
+
+        ];
+
+        $result = null;
+        $errorMsg = '';
+
+        try {
+            if ($companyArr['default']) {
+                $this->companyService->resetDefaultCompany($user);
+            }
+
+            $result = $this->companyService->create($companyArr);
+        } catch (Exception $e) {
+            $errorMsg = app()->environment('production') ? '' : $e->getMessage();
+        }
+
+        return is_null($result) ? response()->error($errorMsg) : response()->success();
+    }
+
     public function list(CompanyRequest $companyRequest)
     {
         $userId = Auth::id();
@@ -101,51 +146,6 @@ class CompanyController extends BaseController
         $defaultCompany = $this->companyService->getDefaultCompany($user);
 
         return $defaultCompany->hId;
-    }
-
-    public function store(CompanyRequest $companyRequest)
-    {
-        $request = $companyRequest->validated();
-
-        $user = Auth::user();
-
-        $code = $request['code'];
-        if ($code == config('dcslab.KEYWORDS.AUTO')) {
-            do {
-                $code = $this->companyService->generateUniqueCode();
-            } while (!$this->companyService->isUniqueCode($code, $user->id));
-        } else {
-            if (!$this->companyService->isUniqueCode($code, $user->id)) {
-                return response()->error([
-                    'code' => [trans('rules.unique_code')],
-                ], 422);
-            }
-        }
-
-        $companyArr = [
-            'user_id' => $user->id,
-            'code' => $code,
-            'name' => $request['name'],
-            'address' => $request['address'],
-            'default' => $request['default'],
-            'status' => $request['status'],
-
-        ];
-
-        $result = null;
-        $errorMsg = '';
-
-        try {
-            if ($companyArr['default']) {
-                $this->companyService->resetDefaultCompany($user);
-            }
-
-            $result = $this->companyService->create($companyArr);
-        } catch (Exception $e) {
-            $errorMsg = app()->environment('production') ? '' : $e->getMessage();
-        }
-
-        return is_null($result) ? response()->error($errorMsg) : response()->success();
     }
 
     public function update(Company $company, CompanyRequest $companyRequest)
