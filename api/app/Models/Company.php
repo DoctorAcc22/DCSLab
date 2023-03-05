@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Branch;
 use App\Models\Employee;
+use App\Models\EmployeeAccess;
 use App\Models\Warehouse;
 
 use App\Models\ChartOfAccount;
@@ -19,9 +20,11 @@ use App\Models\Product;
 use App\Models\ProductUnit;
 
 use App\Models\Supplier;
+use App\Models\SupplierProduct;
 
 use App\Models\CustomerGroup;
 use App\Models\Customer;
+use App\Models\CustomerAddress;
 
 class Company extends Model
 {
@@ -46,6 +49,11 @@ class Company extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class);
+    }
+
+    public function employeeAccesses()
+    {
+        return $this->hasMany(EmployeeAccess::class);
     }
 
     public function warehouses()
@@ -93,6 +101,11 @@ class Company extends Model
         return $this->hasMany(Supplier::class);
     }
 
+    public function supplierProducts()
+    {
+        return $this->hasMany(SupplierProduct::class);
+    }
+
     public function customerGroups()
     {
         return $this->hasMany(CustomerGroup::class);
@@ -101,5 +114,10 @@ class Company extends Model
     public function customers()
     {
         return $this->hasMany(Customer::class);
+    }
+
+    public function customerAddresses()
+    {
+        return $this->hasMany(CustomerAddress::class);
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_units', function (Blueprint $table) {
             $table->id();
+            $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('unit_id')->references('id')->on('units');
@@ -26,8 +27,6 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_by')->default(0);
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index(['company_id', 'created_at']);
         });
     }
 

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('employee_accesses', function (Blueprint $table) {
             $table->id();
+            $table->ulid();
+            $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('employee_id')->references('id')->on('employees');
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->unsignedBigInteger('created_by')->default(0);
@@ -20,8 +22,6 @@ return new class extends Migration
             $table->unsignedBigInteger('deleted_by')->default(0);
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index(['employee_id', 'branch_id']);
         });
     }
 

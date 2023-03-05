@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_order_discounts', function (Blueprint $table) {
             $table->id();
+            $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->foreignId('purchase_order_id')->nullable()->references('id')->on('purchase_orders');
