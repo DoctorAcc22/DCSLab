@@ -12,21 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->id()->index();
             $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('product_group_id')->references('id')->on('product_groups');
             $table->foreignId('brand_id')->nullable()->references('id')->on('brands');
-            $table->string('code')->nullable();
-            $table->string('name')->nullable();
-            $table->integer('product_type')->nullable();
+            $table->string('code')->nullable()->index();
+            $table->string('name')->nullable()->index();
+            $table->integer('product_type')->nullable()->index();
             $table->boolean('taxable_supply')->default(false);
             $table->integer('standard_rated_supply')->default(0);
             $table->boolean('price_include_vat')->default(false);
             $table->integer('point')->nullable();
             $table->boolean('use_serial_number')->default(false);
             $table->boolean('has_expiry_date')->default(false);
-            $table->integer('status')->nullable();
+            $table->integer('status')->nullable()->index();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);

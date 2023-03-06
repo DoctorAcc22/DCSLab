@@ -12,20 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('suppliers', function (Blueprint $table) {
-            $table->id();
+            $table->id()->index();
             $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
-            $table->string('code');
-            $table->string('name')->nullable();
+            $table->string('code')->index();
+            $table->string('name')->nullable()->index();
             $table->string('address')->nullable();
             $table->string('contact')->nullable();
             $table->string('city')->nullable();
-            $table->string('payment_term_type');
+            $table->string('payment_term_type')->index();
             $table->integer('payment_term')->default(0);
             $table->boolean('taxable_enterprise')->default(false);
             $table->string('tax_id')->nullable();
-            $table->integer('status');
+            $table->integer('status')->index();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);

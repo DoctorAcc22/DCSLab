@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chart_of_accounts', function (Blueprint $table) {
-            $table->id();
+            $table->id()->index();
             $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('branch_id')->nullable()->references('id')->on('branches');
             $table->foreignId('parent_id')->nullable()->references('id')->on('chart_of_accounts');
-            $table->string('code');
-            $table->string('name');
-            $table->integer('can_have_child');
+            $table->string('code')->index();
+            $table->string('name')->index();
+            $table->integer('can_have_child')->index();
             $table->string('account_type')->nullable();
             $table->string('remarks')->nullable();
-            $table->integer('status');
+            $table->integer('status')->index();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);
             $table->unsignedBigInteger('deleted_by')->default(0);

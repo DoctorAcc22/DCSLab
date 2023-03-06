@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customer_groups', function (Blueprint $table) {
-            $table->id();
+            $table->id()->index();
             $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
-            $table->string('code');
-            $table->string('name');
+            $table->string('code')->index();
+            $table->string('name')->index();
             $table->integer('max_open_invoice')->default(0);
             $table->decimal('max_outstanding_invoice', $precision = 16, $scale = 8)->default(0);
             $table->integer('max_invoice_age')->default(0);
-            $table->string('payment_term_type');
+            $table->string('payment_term_type')->index();
             $table->integer('payment_term')->default(0);
             $table->decimal('selling_point', $precision = 8, $scale = 2)->default(0);
             $table->decimal('selling_point_multiple', $precision = 16, $scale = 8)->default(0);

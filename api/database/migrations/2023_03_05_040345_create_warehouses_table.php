@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('warehouses', function (Blueprint $table) {
-            $table->id();
+            $table->id()->index();
             $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('branch_id')->references('id')->on('branches');
-            $table->string('code');
-            $table->string('name')->nullable();
+            $table->string('code')->index();
+            $table->string('name')->nullable()->index();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('contact')->nullable();
             $table->string('remarks')->nullable();
-            $table->integer('status')->nullable();
+            $table->integer('status')->nullable()->index();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);
             $table->unsignedBigInteger('deleted_by')->default(0);
