@@ -12,23 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
+            $table->id()->index();
             $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('customer_group_id')->references('id')->on('customer_groups');
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
-            $table->string('code');
+            $table->string('code')->index();
             $table->integer('is_member');
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('zone')->nullable();
             $table->integer('max_open_invoice')->default(0);
             $table->decimal('max_outstanding_invoice', $precision = 16, $scale = 8)->default(0);
             $table->integer('max_invoice_age')->default(0);
-            $table->string('payment_term_type');
+            $table->string('payment_term_type')->index();
             $table->integer('payment_term')->default(0);
             $table->boolean('taxable_enterprise')->default(false);
             $table->string('tax_id')->nullable();
-            $table->integer('status')->default(0);
+            $table->integer('status')->default(0)->index();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);

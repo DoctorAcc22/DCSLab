@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('accounting_journals', function (Blueprint $table) {
-            $table->id();
+            $table->id()->index();
             $table->ulid();
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->foreignId('chart_of_account_id')->nullable()->references('id')->on('chart_of_accounts');
             $table->string('ref');
-            $table->string('ref_number');
+            $table->string('ref_number')->index();
             $table->dateTime('date', $precision = 0);
             $table->string('transaction_type');
             $table->decimal('value', $precision = 16, $scale = 8)->default(0);
