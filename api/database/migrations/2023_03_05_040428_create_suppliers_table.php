@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('payment_term_type')->index();
             $table->integer('payment_term')->default(0);
-            $table->boolean('taxable_enterprise')->default(false);
+            $table->boolean('taxable_enterprise')->default(false)->index();
             $table->string('tax_id')->nullable();
             $table->integer('status')->index();
             $table->string('remarks')->nullable();

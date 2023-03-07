@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('code')->index();
             $table->string('name')->index();
             $table->integer('can_have_child')->index();
-            $table->string('account_type')->nullable();
+            $table->string('account_type')->nullable()->index();
             $table->string('remarks')->nullable();
             $table->integer('status')->index();
             $table->unsignedBigInteger('created_by')->default(0);

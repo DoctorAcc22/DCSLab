@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('customer_group_id')->references('id')->on('customer_groups');
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->string('code')->index();
-            $table->integer('is_member');
+            $table->integer('is_member')->index();
             $table->string('name')->index();
             $table->string('zone')->nullable();
             $table->integer('max_open_invoice')->default(0);
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('max_invoice_age')->default(0);
             $table->string('payment_term_type')->index();
             $table->integer('payment_term')->default(0);
-            $table->boolean('taxable_enterprise')->default(false);
+            $table->boolean('taxable_enterprise')->default(false)->index();
             $table->string('tax_id')->nullable();
             $table->integer('status')->default(0)->index();
             $table->string('remarks')->nullable();

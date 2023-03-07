@@ -30,7 +30,7 @@ return new class extends Migration
             $table->decimal('product_unit_global_discount_percent', 19, 8)->default(0);
             $table->decimal('product_unit_global_discount_nominal', 19, 8)->default(0);
             $table->decimal('product_unit_final_price', 19, 8)->default(0);
-            $table->integer('vat_status');
+            $table->integer('vat_status')->index();
             $table->decimal('vat_rate', 19, 8);
             $table->decimal('vat_amount', 19, 8);
             $table->string('remarks')->nullable();

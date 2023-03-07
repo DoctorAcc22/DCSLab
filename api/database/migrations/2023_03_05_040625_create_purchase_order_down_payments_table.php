@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('purchase_order_id')->references('id')->on('purchase_orders');
             $table->foreignId('coa_cash_and_bank_id')->references('id')->on('chart_of_accounts');
             $table->string('payment_code')->index();
-            $table->dateTime('date');
+            $table->dateTime('date')->index();
             $table->integer('payment_term');
             $table->decimal('amount', 19, 8)->default(0);
             $table->string('remarks')->nullable();

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->foreignId('supplier_id')->references('id')->on('suppliers');
             $table->string('invoice_code')->index();
-            $table->dateTime('invoice_date', $precision = 0);
+            $table->dateTime('invoice_date', $precision = 0)->index();
             $table->dateTime('shipping_date', $precision = 0)->nullable();
             $table->string('shipping_address')->nullable();
             $table->string('remarks')->nullable();

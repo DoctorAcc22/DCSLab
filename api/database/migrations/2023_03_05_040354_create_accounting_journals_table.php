@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->foreignId('chart_of_account_id')->nullable()->references('id')->on('chart_of_accounts');
-            $table->string('ref');
+            $table->string('ref')->index();
             $table->string('ref_number')->index();
-            $table->dateTime('date', $precision = 0);
-            $table->string('transaction_type');
+            $table->dateTime('date', $precision = 0)->index();
+            $table->string('transaction_type')->index();
             $table->decimal('value', $precision = 16, $scale = 8)->default(0);
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('branch_id')->references('id')->on('branches');
             $table->foreignId('purchase_order_id')->nullable()->references('id')->on('purchase_orders');
             $table->foreignId('purchase_order_product_unit_id')->nullable()->references('id')->on('purchase_order_product_units');
-            $table->string('discount_type');
+            $table->string('discount_type')->index();
             $table->decimal('amount', 19, 8)->default(0);
             $table->timestamps();
         });

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->string('code')->index();
-            $table->date('join_date')->nullable();
+            $table->date('join_date')->nullable()->index();
             $table->integer('status')->nullable()->index();
             $table->unsignedBigInteger('created_by')->default(0);
             $table->unsignedBigInteger('updated_by')->default(0);

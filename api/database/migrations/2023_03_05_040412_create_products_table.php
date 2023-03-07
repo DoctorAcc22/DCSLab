@@ -20,12 +20,12 @@ return new class extends Migration
             $table->string('code')->nullable()->index();
             $table->string('name')->nullable()->index();
             $table->integer('product_type')->nullable()->index();
-            $table->boolean('taxable_supply')->default(false);
+            $table->boolean('taxable_supply')->default(false)->index();
             $table->integer('standard_rated_supply')->default(0);
-            $table->boolean('price_include_vat')->default(false);
+            $table->boolean('price_include_vat')->default(false)->index();
             $table->integer('point')->nullable();
-            $table->boolean('use_serial_number')->default(false);
-            $table->boolean('has_expiry_date')->default(false);
+            $table->boolean('use_serial_number')->default(false)->index();
+            $table->boolean('has_expiry_date')->default(false)->index();
             $table->integer('status')->nullable()->index();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->default(0);
