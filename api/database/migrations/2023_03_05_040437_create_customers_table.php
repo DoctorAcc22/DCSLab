@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('code')->index();
             $table->integer('is_member')->index();
             $table->string('name')->index();
-            $table->string('zone')->nullable();
+            $table->string('zone')->nullable()->index();
             $table->integer('max_open_invoice')->default(0);
             $table->decimal('max_outstanding_invoice', $precision = 16, $scale = 8)->default(0);
             $table->integer('max_invoice_age')->default(0);
