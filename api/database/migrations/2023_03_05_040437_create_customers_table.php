@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('max_open_invoice')->default(0);
             $table->decimal('max_outstanding_invoice', $precision = 16, $scale = 8)->default(0);
             $table->integer('max_invoice_age')->default(0);
-            $table->string('payment_term_type')->index();
+            $table->string('payment_term_type');
             $table->integer('payment_term')->default(0);
             $table->boolean('taxable_enterprise')->default(false)->index();
             $table->string('tax_id')->nullable();

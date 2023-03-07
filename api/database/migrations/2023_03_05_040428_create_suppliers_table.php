@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('contact')->nullable();
             $table->string('city')->nullable();
-            $table->string('payment_term_type')->index();
+            $table->string('payment_term_type');
             $table->integer('payment_term')->default(0);
             $table->boolean('taxable_enterprise')->default(false)->index();
             $table->string('tax_id')->nullable();
