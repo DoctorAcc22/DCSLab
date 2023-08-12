@@ -97,7 +97,8 @@ class EmployeeActions
         $recordsCount = 0;
 
         try {
-            $cacheKey = 'readAny_'.$companyId.'_'.(empty($search) ? '[empty]' : $search).'-'.$paginate.'-'.$page.'-'.$perPage;
+            $cacheSearch = empty($search) ? '[empty]' : $search;
+            $cacheKey = 'readAny_'.$companyId.'_'.$cacheSearch.'-'.$paginate.'-'.$page.'-'.$perPage;
             if ($useCache) {
                 $cacheResult = $this->readFromCache($cacheKey);
 
@@ -112,34 +113,32 @@ class EmployeeActions
                 return null;
             }
 
-            $employee = count($with) != 0 ? Employee::with($with) : Employee::with(['company', 'user.profile', 'employeeAccesses.branch']);
+            $relationship = ['company', 'user.profile', 'employeeAccesses.branch'];
+            $relationship = count($with) > 0 ? $with : $relationship;
+            $query = Employee::with($relationship);
 
-            $employee = $employee->whereCompanyId($companyId);
+            $query = $query->whereCompanyId($companyId);
 
-            if (empty($search)) {
-                $employee = $employee->latest();
-            } else {
-                $employee = $employee
-                    ->where(function ($query) use ($search) {
-                        $query->where('code', 'like', '%'.$search.'%')
-                            ->orWhere('join_date', 'like', '%'.$search.'%')
-                            ->orWhereHas('user', function ($query) use ($search) {
-                                $query->where('name', 'like', '%'.$search.'%');
-                            });
-                    }
-                    )
-                    ->latest();
+            if (! empty($search)) {
+                $query = $query->where(function ($query) use ($search) {
+                    $query->where('code', 'like', '%'.$search.'%')
+                        ->orWhere('join_date', 'like', '%'.$search.'%')
+                        ->orWhere('user', 'like', '%'.$search.'%')
+                        ->orWhereHas('user', function ($query) use ($search) {
+                            $query->where('name', 'like', '%'.$search.'%');
+                        });
+                });
             }
 
             if ($withTrashed) {
-                $employee = $employee->withTrashed();
+                $query = $query->withTrashed();
             }
 
             if ($paginate) {
                 $perPage = is_numeric($perPage) ? $perPage : Config::get('dcslab.PAGINATION_LIMIT');
-                $result = $employee->paginate(abs($perPage));
+                $result = $query->paginate(abs($perPage));
             } else {
-                $result = $employee->get();
+                $result = $query->get();
             }
 
             $recordsCount = $result->count();

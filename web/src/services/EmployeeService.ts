@@ -126,7 +126,7 @@ export default class EmployeeService {
             success: false,
         }
 
-        try {                    
+        try {
             const url = route('api.post.db.company.employee.edit', ulid, false, this.ziggyRoute);        
             if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();        
 
@@ -164,9 +164,8 @@ export default class EmployeeService {
 
             if (response.status == StatusCode.OK) {
                 result.success = true;
-                result.data = response.data;
             }
-            
+
             return result;
         } catch (e: unknown) {
             if (e instanceof Error && e.message.includes('Ziggy error')) {

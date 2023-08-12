@@ -9,7 +9,7 @@ import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
 import Table from "../../base-components/Table";
 import { TitleLayout, TwoColumnsLayout } from "../../base-components/Form/FormLayout";
-import { FormInput, FormLabel } from "../../base-components/Form";
+import { FormInput, FormLabel, FormInputCode } from "../../base-components/Form";
 import { ViewMode } from "../../types/enums/ViewMode";
 import BrandService from "../../services/BrandService";
 import { Brand } from "../../types/models/Brand";
@@ -396,16 +396,16 @@ watch(
                     <FormInput id="company_id" name="company_id" type="hidden" v-bind="field" />
                   </VeeField>
                   <div class="pb-4">
-                    <FormLabel html-for="code" :class="{ 'text-danger': errors['code'] }">
-                      {{ t('views.brand.fields.code') }}
-                    </FormLabel>
-                    <VeeField v-slot="{ field }" v-model="brandForm.data.code" name="code" rules="required|alpha_dash"
-                      :label="t('views.brand.fields.code')">
-                      <FormInput id="code" v-bind="field" name="code" type="text"
-                        :class="{ 'border-danger': errors['code'] }" :placeholder="t('views.brand.fields.code')" />
-                    </VeeField>
-                    <VeeErrorMessage name="code" class="mt-2 text-danger" />
-                  </div>
+                  <FormLabel html-for="code" :class="{ 'text-danger': errors['code'] }">
+                    {{ t('views.brand.fields.code') }}
+                  </FormLabel>
+                  <VeeField v-slot="{ field }" v-model="brandForm.data.code" name="code" rules="required|alpha_dash"
+                    :label="t('views.brand.fields.code')">
+                    <FormInputCode id="code" v-bind="field" name="code" type="text" :class="{ 'border-danger': errors['code'] }" 
+                      :placeholder="t('views.brand.fields.code')" />
+                  </VeeField>
+                  <VeeErrorMessage name="code" class="mt-2 text-danger" />
+                </div>
                 </div>
                 <div class="pb-4">
                   <FormLabel html-for="name" :class="{ 'text-danger': errors['name'] }">

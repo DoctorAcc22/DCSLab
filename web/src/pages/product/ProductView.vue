@@ -9,7 +9,7 @@ import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
 import Table from "../../base-components/Table";
 import { TitleLayout, TwoColumnsLayout } from "../../base-components/Form/FormLayout";
-import { FormInput, FormLabel, FormTextarea, FormSelect, FormSwitch } from "../../base-components/Form";
+import { FormInput, FormLabel, FormTextarea, FormSelect, FormSwitch, FormInputCode } from "../../base-components/Form";
 import { ViewMode } from "../../types/enums/ViewMode";
 import ProductService from "../../services/ProductService";
 import ProductGroupService from "../../services/ProductGroupService";
@@ -665,7 +665,7 @@ watch(
                   </FormLabel>
                   <VeeField v-slot="{ field }" name="code" rules="required|alpha_num"
                     :label="t('views.product.fields.code')">
-                    <FormInput id="code" v-model="productForm.data.code" v-bind="field" name="code" type="text"
+                    <FormInputCode id="code" v-model="productForm.data.code" v-bind="field" name="code" type="text"
                       :class="{ 'border-danger': errors['code'] }" :placeholder="t('views.product.fields.code')" />
                   </VeeField>
                   <VeeErrorMessage name="code" class="mt-2 text-danger" />

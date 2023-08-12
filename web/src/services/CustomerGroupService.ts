@@ -126,7 +126,7 @@ export default class CustomerGroupService {
             success: false,
         }
 
-        try {                    
+        try {
             const url = route('api.post.db.customer.customer_group.edit', ulid, false, this.ziggyRoute);        
             if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();        
 

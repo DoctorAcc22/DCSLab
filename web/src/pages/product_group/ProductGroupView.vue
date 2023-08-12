@@ -9,7 +9,7 @@ import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
 import Table from "../../base-components/Table";
 import { TitleLayout, TwoColumnsLayout } from "../../base-components/Form/FormLayout";
-import { FormInput, FormLabel, FormSelect } from "../../base-components/Form";
+import { FormInput, FormLabel, FormSelect, FormInputCode } from "../../base-components/Form";
 import { ViewMode } from "../../types/enums/ViewMode";
 import ProductGroupService from "../../services/ProductGroupService";
 import { ProductGroup } from "../../types/models/ProductGroup";
@@ -159,7 +159,7 @@ const emptyProductGroup = () => {
         default: false,
         status: ''
       },
-      code: '',
+      code: '_AUTO_',
       name: '',
       category: '',
     }
@@ -425,7 +425,7 @@ watch(
                     </FormLabel>
                     <VeeField v-slot="{ field }" v-model="productGroupForm.data.code" name="code" rules="required|alpha_dash"
                       :label="t('views.product_group.fields.code')">
-                      <FormInput id="code" v-bind="field" name="code" type="text"
+                      <FormInputCode id="code" v-bind="field" name="code" type="text"
                         :class="{ 'border-danger': errors['code'] }" :placeholder="t('views.product_group.fields.code')" />
                     </VeeField>
                     <VeeErrorMessage name="code" class="mt-2 text-danger" />

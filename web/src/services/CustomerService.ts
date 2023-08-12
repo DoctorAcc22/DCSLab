@@ -29,7 +29,7 @@ export default class CustomerService {
         }
 
         try {
-            const url = route('api.post.db.company.branch.save', undefined, false, this.ziggyRoute);        
+            const url = route('api.post.db.customer.customer.save', undefined, false, this.ziggyRoute);        
             if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();
 
             const response: AxiosResponse<Customer> = await axios.post(url, payload);
@@ -67,7 +67,7 @@ export default class CustomerService {
             if (args.page) queryParams['page'] = args.page;
             if (args.per_page) queryParams['per_page'] = args.per_page;
 
-            const url = route('api.get.db.company.branch.read_any', {
+            const url = route('api.get.db.customer.customer.read_any', {
                 _query: queryParams
             }, false, this.ziggyRoute);
 
@@ -98,7 +98,7 @@ export default class CustomerService {
         }
 
         try {
-            const url = route('api.get.db.company.branch.read', {
+            const url = route('api.get.db.customer.customer.read', {
                 user: ulid
             }, false, this.ziggyRoute);
 
@@ -108,6 +108,7 @@ export default class CustomerService {
                 result.success = true;
                 result.data = response.data.data;
             }
+
             return result;
         } catch (e: unknown) {
             if (e instanceof Error && e.message.includes('Ziggy error')) {
@@ -125,7 +126,7 @@ export default class CustomerService {
             success: false,
         }
 
-        try {                    
+        try {
             const url = route('api.post.db.customer.customer.edit', ulid, false, this.ziggyRoute);        
             if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();        
 

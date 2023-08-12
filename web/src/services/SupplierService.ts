@@ -126,7 +126,7 @@ export default class SupplierService {
             success: false,
         }
 
-        try {                    
+        try {
             const url = route('api.post.db.supplier.supplier.edit', ulid, false, this.ziggyRoute);        
             if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();        
 

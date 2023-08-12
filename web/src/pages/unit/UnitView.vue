@@ -9,7 +9,7 @@ import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
 import Table from "../../base-components/Table";
 import { TitleLayout, TwoColumnsLayout } from "../../base-components/Form/FormLayout";
-import { FormInput, FormLabel, FormSelect, FormTextarea } from "../../base-components/Form";
+import { FormInput, FormLabel, FormSelect, FormTextarea, FormInputCode } from "../../base-components/Form";
 import { ViewMode } from "../../types/enums/ViewMode";
 import UnitService from "../../services/UnitService";
 import { Unit } from "../../types/models/Unit";
@@ -160,7 +160,7 @@ const emptyUnit = () => {
         default: false,
         status: ''
       },
-      code: '',
+      code: '_AUTO_',
       name: '',
       description: '',
       category: '',
@@ -435,7 +435,7 @@ watch(
                     </FormLabel>
                     <VeeField v-slot="{ field }" v-model="unitForm.data.code" name="code" rules="required|alpha_dash"
                       :label="t('views.unit.fields.code')">
-                      <FormInput id="code" v-bind="field" name="code" type="text"
+                      <FormInputCode id="code" v-bind="field" name="code" type="text"
                         :class="{ 'border-danger': errors['code'] }" :placeholder="t('views.unit.fields.code')" />
                     </VeeField>
                     <VeeErrorMessage name="code" class="mt-2 text-danger" />

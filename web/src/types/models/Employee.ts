@@ -5,9 +5,9 @@ import { Branch } from "./Branch";
 export interface Employee {
     id: string,
     ulid: string,
-    company: Array<Company>,
-    user: Array<User>,
-    employee_accesses: Array<Branch>,
+    company: Company,
+    user: User,
+    employee_accesses: Branch,
     selected_companies: string,
     selected_accesses: string,
     code: string,

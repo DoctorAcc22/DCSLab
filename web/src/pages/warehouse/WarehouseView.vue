@@ -9,7 +9,7 @@ import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
 import Table from "../../base-components/Table";
 import { TitleLayout, TwoColumnsLayout } from "../../base-components/Form/FormLayout";
-import { FormInput, FormLabel, FormTextarea, FormSelect } from "../../base-components/Form";
+import { FormInput, FormLabel, FormTextarea, FormSelect,FormInputCode } from "../../base-components/Form";
 import { ViewMode } from "../../types/enums/ViewMode";
 import WarehouseService from "../../services/WarehouseService";
 import { Warehouse } from "../../types/models/Warehouse";
@@ -207,7 +207,7 @@ const emptyWarehouse = () => {
         remarks: '',
         status: 'ACTIVE',
       },
-      code: '',
+      code: '_AUTO_',
       name: '',
       address: '',
       city: '',
@@ -498,7 +498,7 @@ watch(
                   </FormLabel>
                   <VeeField v-slot="{ field }" name="code" rules="required|alpha_num"
                     :label="t('views.warehouse.fields.code')">
-                    <FormInput id="code" v-model="warehouseForm.data.code" v-bind="field" name="code" type="text"
+                    <FormInputCode id="code" v-model="warehouseForm.data.code" v-bind="field" name="code" type="text"
                       :class="{ 'border-danger': errors['code'] }" :placeholder="t('views.warehouse.fields.code')" />
                   </VeeField>
                   <VeeErrorMessage name="code" class="mt-2 text-danger" />

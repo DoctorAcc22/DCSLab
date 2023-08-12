@@ -53,11 +53,7 @@ export default class PurchaseOrderService {
         }
     }
 
-    public async readAny(
-        company_id: string, 
-        branch_id: string, 
-        args: SearchRequest
-    ): Promise<ServiceResponse<Collection<Array<PurchaseOrder>> | Resource<Array<PurchaseOrder>> | null>> {
+    public async readAny(company_id: string, args: SearchRequest): Promise<ServiceResponse<Collection<Array<PurchaseOrder>> | Resource<Array<PurchaseOrder>> | null>> {
         const result: ServiceResponse<Collection<PurchaseOrder[]> | Resource<PurchaseOrder[]> | null> = {
             success: false
         }
@@ -65,7 +61,6 @@ export default class PurchaseOrderService {
         try {
             const queryParams: Record<string, string | number | boolean> = {};
             queryParams['company_id'] = company_id;
-            queryParams['branch_id'] = branch_id;
             queryParams['search'] = args.search ? args.search : '';
             queryParams['refresh'] = args.refresh;
             queryParams['paginate'] = args.paginate;
@@ -131,12 +126,11 @@ export default class PurchaseOrderService {
             success: false,
         }
 
-        try {                    
-            const url = route('api.post.db.purchase_order.purchase_order.edit', ulid, false, this.ziggyRoute);
-            if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();
+        try {
+            const url = route('api.post.db.purchase_order.purchase_order.edit', ulid, false, this.ziggyRoute);        
+            if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();        
 
-            const response: AxiosResponse<PurchaseOrder> = await axios.post(
-                url, payload);
+            const response: AxiosResponse<PurchaseOrder> = await axios.post(url, payload);
             
             if (!url) return this.errorHandlerService.generateZiggyUrlErrorServiceResponse();
 
