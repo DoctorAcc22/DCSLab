@@ -223,6 +223,10 @@ class BranchController extends BaseController
         $result = false;
         $errorMsg = '';
 
+        if ($branch->is_main) {
+            return response()->error(trans('rules.branch.delete_main_branch'), 422);
+        }
+
         try {
             $result = $this->branchActions->delete($branch);
         } catch (Exception $e) {

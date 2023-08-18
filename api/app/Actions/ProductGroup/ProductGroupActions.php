@@ -89,7 +89,8 @@ class ProductGroupActions
         $recordsCount = 0;
 
         try {
-            $cacheKey = 'readAny_'.$companyId.'_'.(empty($search) ? '[empty]' : $search).'-'.$paginate.'-'.$page.'-'.$perPage;
+            $cacheSearch = empty($search) ? '[empty]' : $search;
+            $cacheKey = 'readAny_'.$companyId.'_'.$cacheSearch.'-'.$paginate.'-'.$page.'-'.$perPage;
             if ($useCache) {
                 $cacheResult = $this->readFromCache($cacheKey);
 
@@ -100,29 +101,32 @@ class ProductGroupActions
 
             $result = null;
 
-            $productGroup = count($with) != 0 ? ProductGroup::with($with) : ProductGroup::with(['company']);
+            if (! $companyId) {
+                return null;
+            }
 
-            $productGroup = $productGroup->whereCompanyId($companyId);
+            $relationship = ['company'];
+            $relationship = count($with) > 0 ? $with : $relationship;
+            $query = ProductGroup::with($relationship);
+
+            $query = $query->whereCompanyId($companyId);
 
             if ($category) {
                 switch ($category) {
                     case ProductGroupCategory::PRODUCTS->value:
-                        $productGroup = $productGroup->where('category', '=', ProductGroupCategory::PRODUCTS->value);
+                        $productGroup = $query->where('category', '=', ProductGroupCategory::PRODUCTS->value);
                         break;
                     case ProductGroupCategory::SERVICES->value:
-                        $productGroup = $productGroup->where('category', '=', ProductGroupCategory::SERVICES->value);
+                        $productGroup = $query->where('category', '=', ProductGroupCategory::SERVICES->value);
                         break;
                 }
             }
 
-            if (empty($search)) {
-                $productGroup = $productGroup->latest();
-            } else {
-                $productGroup = $productGroup->where(function ($query) use ($search) {
+            if (! empty($search)) {
+                $query = $query->where(function ($query) use ($search) {
                     $query->where('name', 'like', '%'.$search.'%')
                         ->orWhere('category', 'like', '%'.$search.'%');
-                }
-                )->latest();
+                });
             }
 
             if ($withTrashed) {
@@ -226,5 +230,23 @@ class ProductGroupActions
         }
 
         return $result->count() == 0 ? true : false;
+    }
+
+    public function getProductGroupDDL(int $companyId, ?int $category): Collection
+    {
+        $productGroup = ProductGroup::whereCompanyId($companyId);
+
+        if ($category) {
+            switch ($category) {
+                case ProductGroupCategory::PRODUCTS->value:
+                    $productGroup = $productGroup->where('category', '=', ProductGroupCategory::PRODUCTS->value);
+                    break;
+                case ProductGroupCategory::SERVICES->value:
+                    $productGroup = $productGroup->where('category', '=', ProductGroupCategory::SERVICES->value);
+                    break;
+            }
+        }
+
+        return $productGroup->latest()->get();
     }
 }

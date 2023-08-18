@@ -164,10 +164,64 @@ export default class DashboardService {
 
             const data = await axios.post(url, formData);
 
+            const data = await authAxiosInstance.post(url, {
+                file : file
+            })
+            console.log(data)
             return {
                 success: true,
                 data: data.data
             }
+        } catch (e: unknown) {
+            return result;
+        }
+    }
+
+    public async getProductTypeDDL(): Promise<Array<DropDownOption> | null> {
+        const ddlName = 'productTypeDDL';
+        let result: Array<DropDownOption> = [];
+
+        try {
+            if (this.cacheService.getCachedDDL(ddlName) == null) {
+                const url = route('api.get.db.product.common.read.product.type', undefined, false, this.ziggyRoute);
+
+                const response: AxiosResponse<Array<DropDownOption> | null> = await axios.get(url);
+
+                this.cacheService.setCachedDDL(ddlName, response.data);
+            }
+
+            const cachedData: Array<DropDownOption> | null = this.cacheService.getCachedDDL(ddlName);
+
+            if (cachedData != null) {
+                result = cachedData as Array<DropDownOption>;
+            }
+
+            return result;
+        } catch (e: unknown) {
+            return result;
+        }
+    }
+
+    public async getProductTypeDDL(): Promise<Array<DropDownOption> | null> {
+        const ddlName = 'productTypeDDL';
+        let result: Array<DropDownOption> = [];
+
+        try {
+            if (this.cacheService.getCachedDDL(ddlName) == null) {
+                const url = route('api.get.db.product.common.read.product.type', undefined, false, this.ziggyRoute);
+
+                const response: AxiosResponse<Array<DropDownOption> | null> = await axios.get(url);
+
+                this.cacheService.setCachedDDL(ddlName, response.data);
+            }
+
+            const cachedData: Array<DropDownOption> | null = this.cacheService.getCachedDDL(ddlName);
+
+            if (cachedData != null) {
+                result = cachedData as Array<DropDownOption>;
+            }
+
+            return result;
         } catch (e: unknown) {
             return result;
         }

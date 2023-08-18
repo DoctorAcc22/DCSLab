@@ -51,6 +51,7 @@ const loading = ref<boolean>(false);
 const datalistErrors = ref<Record<string, Array<string>> | null>(null);
 const crudErrors = ref<Record<string, Array<string>>>({});
 const cards = ref<Array<TwoColumnsLayoutCards>>([
+  { title: 'Company Information', state: CardState.Expanded, },
   { title: 'Branch Information', state: CardState.Expanded, },
   { title: '', state: CardState.Hidden, id: 'button' }
 ]);
@@ -459,6 +460,22 @@ watch(
         <VeeForm id="branchForm" v-slot="{ errors, handleReset }" @submit="onSubmit" @invalid-submit="onInvalidSubmit">
           <TwoColumnsLayout :cards="cards" :using-side-tab="false" @handle-expand-card="handleExpandCard">
             <template #card-items-0>
+              <div class="p-5">
+                <div class="pb-4">
+                  <label for="code" class="block bold font-semibold">{{ t('views.company.fields.name') }}</label>
+                  <div class="flex-1">{{ userLocation.company.name }}</div>
+                </div>
+              </div>
+            </template>
+            <template #card-items-1>
+              <div class="p-5">
+                <div class="pb-4">
+                  <label for="code" class="block bold font-semibold">{{ t('views.company.fields.name') }}</label>
+                  <div class="flex-1">{{ userLocation.company.name }}</div>
+                </div>
+              </div>
+            </template>
+            <template #card-items-1>
               <div class="p-5">
                 <VeeField v-slot="{ field }" v-model="userLocation.company.id" name="company_id" rules="required"
                   :label="t('views.branch.fields.company_id')">
