@@ -101,8 +101,7 @@ class PurchaseOrderActions
                     ->orWhere('remarks', 'like', '%'.$search.'%')
                     ->orWhereHas('supplier', function ($query) use ($search) {
                         $query->where('name', 'like', '%'.$search.'%');
-                    }
-                    );
+                    });
             }
 
             if ($withTrashed) {

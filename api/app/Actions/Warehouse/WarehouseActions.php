@@ -69,7 +69,8 @@ class WarehouseActions
         $recordsCount = 0;
 
         try {
-            $cacheKey = 'readAny_'.$companyId.'_'.(empty($search) ? '[empty]' : $search).'-'.$paginate.'-'.$page.'-'.$perPage;
+            $cacheSearch = empty($search) ? '[empty]' : $search;
+            $cacheKey = 'readAny_'.$companyId.'_'.$cacheSearch.'-'.$paginate.'-'.$page.'-'.$perPage;
             if ($useCache) {
                 $cacheResult = $this->readFromCache($cacheKey);
 
@@ -84,31 +85,33 @@ class WarehouseActions
                 return null;
             }
 
-            $warehouse = count($with) != 0 ? Warehouse::with($with) : Warehouse::with('company', 'branch');
-            $warehouse = $warehouse->whereCompanyId($companyId);
+            $relationship = ['company', 'branch'];
+            $relationship = count($with) > 0 ? $with : $relationship;
+            $query = Warehouse::with($relationship);
 
-            if (empty($search)) {
-                $warehouse = $warehouse->latest();
-            } else {
-                $warehouse = $warehouse->where(function ($query) use ($search) {
-                    $query->where(function ($query) use ($search) {
-                        $query->where('name', 'like', '%'.$search.'%')
-                            ->orWhere('address', 'like', '%'.$search.'%')
-                            ->orWhere('city', 'like', '%'.$search.'%');
-                    });
-                }
-                )->latest();
+            $query = $query->whereCompanyId($companyId);
+
+            if (! empty($search)) {
+                $query = $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('name', 'like', '%'.$search.'%')
+                        ->orWhere('address', 'like', '%'.$search.'%')
+                        ->orWhere('city', 'like', '%'.$search.'%');
+                });
             }
 
             if ($withTrashed) {
-                $warehouse = $warehouse->withTrashed();
+                $query = $query->withTrashed();
             }
 
+            $query = $query->latest();
+
             if ($paginate) {
-                $perPage = is_numeric($perPage) ? $perPage : Config::get('dcslab.PAGINATION_LIMIT');
-                $result = $warehouse->paginate(abs($perPage));
+                $perPage = is_numeric($perPage) ? abs($perPage) : Config::get('dcslab.PAGINATION_LIMIT');
+                $page = is_numeric($page) ? abs($page) : 1;
+
+                $result = $query->paginate(perPage: $perPage, page: $page);
             } else {
-                $result = $warehouse->get();
+                $result = $query->get();
             }
 
             $recordsCount = $result->count();

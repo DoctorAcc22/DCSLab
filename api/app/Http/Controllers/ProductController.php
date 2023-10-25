@@ -88,7 +88,7 @@ class ProductController extends BaseController
         $productUnitArr = [];
         $count_unit = count($request['arr_product_unit_unit_id']);
         for ($i = 0; $i < $count_unit; $i++) {
-            $productUnitCode = array_key_exists('arr_product_unit_code', $request) ? $request['arr_product_unit_code'][$i] : '[AUTO]';
+            $productUnitCode = array_key_exists('arr_product_unit_code', $request) ? $request['arr_product_unit_code'][$i] : '_AUTO_';
 
             if ($productUnitCode == config('dcslab.KEYWORDS.AUTO')) {
                 do {
@@ -315,7 +315,7 @@ class ProductController extends BaseController
 
             $arr_product_unit_ulid = $request['arr_product_unit_ulid'][$i];
 
-            $productUnitCode = array_key_exists('arr_product_unit_code', $request) ? $request['arr_product_unit_code'][$i] : '[AUTO]';
+            $productUnitCode = array_key_exists('arr_product_unit_code', $request) ? $request['arr_product_unit_code'][$i] : '_AUTO_';
 
             if ($productUnitCode == config('dcslab.KEYWORDS.AUTO')) {
                 do {
